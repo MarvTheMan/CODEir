@@ -7,7 +7,6 @@ class Textprocessor:
     def __init__(self):
         self.language = "dutch"
         self.unwanted_chars = string.punctuation + "1234567890"
-        self.wordcounts = {}
 
     def create_clean_wordcount(self, wordlist):
         wordlist = self.remove_unwanted_characters(wordlist)
