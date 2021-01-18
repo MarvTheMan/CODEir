@@ -7,3 +7,4 @@ def create_freq_matrix(wordcounts):
 
 def create_term_weight_matrix(freq_matrix):
     means = freq_matrix.mean(axis = 1)
+    
