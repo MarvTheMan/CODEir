@@ -5,9 +5,10 @@ import os
 
 if __name__ == "__main__":
     if os.path.exists(os.path.join("config", "twmatrix.csv")):
-        print("Found a term weight matrix! Reading it in...")
+        print("Found an existing term weight matrix!")
+        term_weight_matrix = get_twmatrix_from_csv()
     else:
-        print("Term weight matrix was not found. Creating one with the provided files...")
+        print("Term weight matrix was not found. Creating one for the provided documents...")
         wordcounts = {}
         tp = Textprocessor()
         for file in os.listdir("documents"):
