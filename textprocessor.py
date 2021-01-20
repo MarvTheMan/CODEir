@@ -1,16 +1,20 @@
 import os
-import string
+from string import punctuation
 from standard_functions import *
+from nltk.stem import PorterStemmer, LancasterStemmer, WordNetLemmatizer
+from nltk.stem.snowball import DutchStemmer
 
 class Textprocessor:
     #handles all the lexical analysis and stemming
     def __init__(self):
         self.language = "dutch"
-        self.unwanted_chars = string.punctuation + "1234567890"
+        self.unwanted_chars = punctuation + "1234567890"
+        self.hard_stemming = False      # Can be set to True for heavier stemming, results can be non-linguistic!
 
     def create_clean_wordcount(self, wordlist):
         wordlist = self.remove_unwanted_characters(wordlist)
         wordlist = self.remove_stopwords(wordlist)
+        wordlist = self.stem_words(wordlist)
         wordcount = self.get_wordcount(wordlist)
         return wordcount
 
@@ -41,4 +45,29 @@ class Textprocessor:
                 cleanlist.append(newword.lower())
         return cleanlist
 
+    def stem_words(self, wordlist):
+        # checks which stemmer to use and stems words
+        if self.language == "english":
+            if self.hard_stemming != True:
+                stemmer = PorterStemmer()
+            else:
+                stemmer = LancasterStemmer()
+        elif self.language == "dutch":
+            stemmer = DutchStemmer()
+        else:
+            print(f"No stemmer for {self.language} installed! Proceeding...")
+            return wordlist
+        stemmed_words = []
+        for word in wordlist:
+            stemmed_words.append(stemmer.stem(word))
+        return stemmed_words
 
+    def lemmatize_words(self, wordlist):
+        # morphological analysis of words (usually preferred over stemming). works for English only.
+        if self.language != "english":
+            return wordlist
+        lemmatizer = WordNetLemmatizer()
+        lemmatized_words = []
+        for word in wordlist:
+            lemmatized_words.append(lemmatizer.lemmatize(word))
+        return lemmatized_words
