@@ -9,7 +9,7 @@ class Textprocessor:
     def __init__(self):
         self.language = "dutch"
         self.unwanted_chars = punctuation + "1234567890"
-        self.hard_stemming = False      # Can be set to True for heavier stemming, results can be non-linguistic!
+        self.hard_processing = False      # Can be set to True for heavier stemming, results can be non-linguistic!
 
     def create_clean_wordcount(self, wordlist):
         wordlist = self.remove_unwanted_characters(wordlist)
@@ -48,7 +48,7 @@ class Textprocessor:
     def stem_words(self, wordlist):
         # checks which stemmer to use and stems words
         if self.language == "english":
-            if self.hard_stemming != True:
+            if self.hard_processing != True:
                 stemmer = PorterStemmer()
             else:
                 stemmer = LancasterStemmer()
