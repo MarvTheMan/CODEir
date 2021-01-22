@@ -14,8 +14,8 @@ class Textprocessor:
         self.documents_folder = os.path.join(os.getcwd(), "documents")
         self.language = "english"
         self.unwanted_chars = punctuation + "1234567890"
-        self.enable_stemmer = True
-        self.enable_lemmatizer = False
+        self.enable_stemmer = False
+        self.enable_lemmatizer = True
 
     def create_term_weight_matrix(self):
         # Call this function to create
