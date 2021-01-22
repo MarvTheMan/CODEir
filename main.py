@@ -28,6 +28,8 @@ def settings():
     return render_template("settings.html")
 
 
+documents = os.listdir("documents") #this variable can be set to other folders on the machine to search them.
+
 if __name__ == "__main__":
     if os.path.exists(os.path.join("config", "twmatrix.csv")):
         print("Found an existing term weight matrix!")
@@ -37,6 +39,9 @@ if __name__ == "__main__":
         wordcounts = {}
         tp = Textprocessor()
         for file in documents:
+            if not file.endswith(".txt"):
+                print(f"{file} is not a textfile! Skipping it!")
+                continue
             wordlist = get_list_from_file(os.path.join("documents", file))
             wordcounts[file] =tp.create_clean_wordcount(wordlist)
         freq_matrix = create_freq_matrix(wordcounts)
