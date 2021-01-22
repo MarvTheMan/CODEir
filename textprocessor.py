@@ -10,13 +10,12 @@ class Textprocessor:
     # Handles all the lexical analysis and stemming.
 
     def __init__(self):
+        #Sets the standard settings for the Textprocessor.
         self.documents_folder = os.path.join(os.getcwd(), "documents")
         self.language = "english"
         self.unwanted_chars = punctuation + "1234567890"
-        self.hard_processing = False      # Can be set to True for heavier stemming, results can be non-linguistic!
-        self.enable_stemmer = False
-        self.stemmer = "porter"
-        self.enable_lemmatizer = True
+        self.enable_stemmer = True
+        self.enable_lemmatizer = False
 
     def create_term_weight_matrix(self):
         # Call this function to create a term weight matrix with the provided settings.
@@ -41,7 +40,6 @@ class Textprocessor:
         with open(path, "r") as f:
             wordlist = f.read().split()
         return wordlist
-
 
     def remove_unwanted_characters(self, wordlist):
         # Takes a wordlist and removes all unwanted chars from the words.

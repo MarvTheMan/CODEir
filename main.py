@@ -8,7 +8,7 @@ app = Flask(__name__)
 
 @app.route("/")
 def index():
-    # Starts the gui.
+    # Startpage of the gui.
     return render_template("index.html")
 
 
@@ -34,39 +34,38 @@ def settings():
 @app.route("/savedsettings", methods = ["GET", "POST"])
 def savedsettings():
     # Gets all settings from form on /settings. Then changes settings and creates new matrix accordingly.
-    chosen_folder = request.form["folder"]
-    if not os.path.exists(chosen_folder):
-        return render_template("settings.html",
-        warning = f"folder: {chosen_folder} does not exist!",
-        directory = tp.documents_folder, 
-        language = tp.language, # TODO: is not passed correctly. maybe add a placeholder option with value "Choose language..."
-        unwanted_chars = tp.unwanted_chars,
-        enable_stemmer = tp.enable_stemmer,
-        enable_lemmatizer = tp.enable_lemmatizer
-        )
-    tp.documents_folder = request.form["folder"]
-    tp.language = request.form["language"]
-    tp.unwanted_chars = request.form["unwanted_chars"]
-    # empty checkboxes do not send a False boolean so we have to set to True if its in the form.
-    if "enabled_stemmer" in request.form:       
-        tp.enable_stemmer == True
-    else:
-        tp.enable_stemmer == False
-    if "enable_lemmatizer" in request.form:       
-        tp.enable_lemmatizer == True
-    else:
-        tp.enable_lemmatizer == False
-    tp.create_term_weight_matrix()
-    return render_template("index.html")
+    if request.method == "POST":
+        chosen_folder = request.form["folder"]
+        if chosen_folder == "":
+            chosen_folder = tp.documents_folder
+        if not os.path.exists(chosen_folder):
+            return render_template("settings.html",
+            warning = f"folder: {chosen_folder} does not exist!",
+            directory = tp.documents_folder, 
+            language = tp.language, # TODO: is not passed correctly. maybe add a placeholder option with value "Choose language..."
+            unwanted_chars = tp.unwanted_chars,
+            enable_stemmer = tp.enable_stemmer,
+            enable_lemmatizer = tp.enable_lemmatizer
+            )
+        tp.documents_folder = chosen_folder
+        tp.language = request.form["language"]
+        tp.unwanted_chars = request.form["unwanted_chars"]
+        # empty checkboxes do not send a False boolean so we have to set to True if its in the form.
+        checkedstem = request.form["enable_stemmer"]
+        checkedlem = "enable_lemmatizer" in request.form
+        print("this is stem and lem: ", checkedstem, checkedlem)
+        tp.enable_stemmer = request.form.get("enable_stemmer")
+        tp.enable_lemmatizer = request.form.get("enable_lemmatizer")
+        tp.create_term_weight_matrix()
+        return render_template("index.html")
 
 
 if __name__ == "__main__":
-    # if os.path.exists(os.path.join("config", "twmatrix.csv")):
-    #     print("Found an existing term weight matrix!")
-    #     term_weight_matrix = pd.read_csv(os.path.join("config", "twmatrix.csv"))
-    # else:
-    #     tp.create_term_weight_matrix()
-    tp.create_term_weight_matrix()
+    if os.path.exists(os.path.join("config", "twmatrix.csv")):
+        print("Found an existing term weight matrix!")
+        term_weight_matrix = pd.read_csv(os.path.join("config", "twmatrix.csv"))
+    else:
+        tp.create_term_weight_matrix()
     app.config['TEMPLATES_AUTO_RELOAD'] = True
     app.config['DEBUG'] = True
     app.config['SERVER_NAME'] = "127.0.0.1:5000"
