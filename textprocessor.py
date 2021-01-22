@@ -34,7 +34,6 @@ class Textprocessor:
         freq_matrix = self.calculate_frequencies(wordcounts)
         term_weight_matrix = self.calculate_term_weights(freq_matrix)
         term_weight_matrix.to_csv(os.path.join("config", "twmatrix.csv"))
-        print("Saved term weight matrix for next startup.")
         self.term_weight_matrix = term_weight_matrix
 
     def open_file(self, path):

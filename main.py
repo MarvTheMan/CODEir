@@ -51,9 +51,7 @@ def savedsettings():
             # Reloads settings page with warning if wrong dir name is given.
             return settings(errormsg)
         tp.documents_folder = chosen_folder
-        print(tp.language)
         tp.language = request.form["language"]
-        print(tp.language)
         tp.unwanted_chars = request.form["unwanted_chars"]
         # empty checkboxes do not return a False boolean so we set
         # checkbox to True/False based on appearance in the form.
@@ -70,8 +68,8 @@ def savedsettings():
 
 
 if __name__ == "__main__":
+    # Search for an existing tw_matrix.csv so that program starts faster.
     if os.path.exists(os.path.join("config", "twmatrix.csv")):
-        print("Found an existing term weight matrix!")
         term_weight_matrix = pd.read_csv(os.path.join("config",
                                                       "twmatrix.csv"))
     else:
