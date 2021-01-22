@@ -31,8 +31,8 @@
             <div class="setting">
                 <h3>Language</h3>
                 <select name="language" selected="{{language}}">
-                    <option value="dutch">Dutch</option>
-                    <option value="english">English</option>
+                    <option value="dutch" {{ 'selected' if not isenglish }}>Dutch</option>
+                    <option value="english" {{ 'selected' if isenglish }} >English</option>
                 </select>
                 <p>The chosen language will be used to determine stopwords in the text and stem and/or lemmatize the text.</p>
             </div>
@@ -41,20 +41,21 @@
                 <input type="text" name="unwanted_chars" value="{{unwanted_chars}}">
                 <p>These characters will be removed from texts in the lexical analysis.</p>
             </div>
-        </form>
-        <div class= "setting"> 
-            <div id=stem_setting>
-                <h3>Stemmer</h3>
-                <input type="checkbox" name="enable_stemmer" {{ 'checked="checked"' if enable_stemmer }}>
-                <p>A stemmer removes all suffixes from the words in the documents. It can result in "unnatural" words.</p>
+            <div class= "setting"> 
+                <div id=stem_setting>
+                    <h3>Stemmer</h3>
+                    <input type="checkbox" name="enable_stemmer" {{ 'checked="checked"' if enable_stemmer }}>
+                    <p>A stemmer removes all suffixes from the words in the documents. It can result in "unnatural" words.</p>
+                </div>
             </div>
-        </div>
-        <div class= "setting">
-            <h3>Lemmatizer</h3>
-            <input type="checkbox" name="enable_lemmatizer" {{ 'checked="checked"' if enable_lemmatizer }}>
-            <p>A lemmatizer sets all words with the same meaning (e.g. runs, ran, running) to one word (run). </p>
-            <p>Even if checked, the lemmatizer does not work with the Dutch language since it does not exist in used libraries.</p>
-        </div>
+            <div class= "setting">
+                <h3>Lemmatizer</h3>
+                <input type="checkbox" name="enable_lemmatizer" {{ 'checked="checked"' if enable_lemmatizer }}>
+                <p>A lemmatizer sets all words with the same meaning (e.g. runs, ran, running) to one word (run). </p>
+                <p>Even if checked, the lemmatizer does not work with the Dutch language since it does not exist in used libraries.</p>
+            </div>
+        </form>
+
     </div>
 </body>
 </html>
