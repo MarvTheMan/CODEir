@@ -54,7 +54,7 @@ def savedsettings():
         tp.language = request.form["language"]
         tp.unwanted_chars = request.form["unwanted_chars"]
         # empty checkboxes do not return a False boolean so we set
-        # checkbox to True/False based on appearance in the form.
+        # values to True/False based on appearance in the form.
         if "enable_lemmatizer" in request.form:
             tp.enable_lemmatizer = True
         else:
