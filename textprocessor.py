@@ -1,6 +1,5 @@
 import os
 from string import punctuation
-from standard_functions import *
 from nltk.stem import PorterStemmer, LancasterStemmer, WordNetLemmatizer
 from nltk.stem.snowball import DutchStemmer
 import pandas as pd

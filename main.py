@@ -1,6 +1,4 @@
 from flask import Flask, render_template, request
-from standard_functions import *
-from matrix import *
 from textprocessor import Textprocessor
 import os
 import pandas as pd
