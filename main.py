@@ -4,10 +4,9 @@ from matrix import *
 from textprocessor import Textprocessor
 import os
 
-
-documents = os.listdir("documents")
+tp = Textprocessor()
 app = Flask(__name__)
-
+DOCUMENTS_FOLDER = os.path.join(os.getcwd(), "documents")
 
 @app.route("/")
 def index():
@@ -25,10 +24,24 @@ def results():
 @app.route("/settings")
 def settings():
     # Page to adjust the settings of the application.
-    return render_template("settings.html")
+    return render_template("settings.html",
+        directory = DOCUMENTS_FOLDER, 
+        language = tp.language, # TODO: is not passed correctly. maybe add a placeholder option with value "Choose language..."
+         unwanted_chars = tp.unwanted_chars
+    )
+
+@app.route("/savedsettings", methods = ["GET", "POST"])
+def savedsettings():
+    # Gets all settings from form on /settings. Then changes settings and shows mainpage.
+    DOCUMENTS_FOLDER = request.form["folder"] # TODO: does not recieve folder correctly...
+    print("folder is: " + request.form["folder"])
+    tp.language = request.form["language"]
+    tp.unwanted_chars = request.form["unwanted_chars"]
+
+    # renders homepage after adjusting settings.
+    return render_template("index.html")
 
 
-documents = os.listdir("documents") #this variable can be set to other folders on the machine to search them.
 
 if __name__ == "__main__":
     if os.path.exists(os.path.join("config", "twmatrix.csv")):
@@ -37,12 +50,11 @@ if __name__ == "__main__":
     else:
         print("Term weight matrix was not found. Creating one for the provided documents...")
         wordcounts = {}
-        tp = Textprocessor()
-        for file in documents:
+        for file in os.listdir(DOCUMENTS_FOLDER):
             if not file.endswith(".txt"):
                 print(f"{file} is not a textfile! Skipping it!")
                 continue
-            wordlist = get_list_from_file(os.path.join("documents", file))
+            wordlist = get_list_from_file(os.path.join("documents", file)) # TODO: this probably needs some adjustments when arbitrary folders can be searched.
             wordcounts[file] =tp.create_clean_wordcount(wordlist)
         freq_matrix = create_freq_matrix(wordcounts)
         term_weight_matrix = create_term_weight_matrix(freq_matrix)

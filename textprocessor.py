@@ -8,7 +8,7 @@ from nltk.stem.snowball import DutchStemmer
 class Textprocessor:
     # Handles all the lexical analysis and stemming.
     def __init__(self):
-        self.language = "dutch"
+        self.language = "english"
         self.unwanted_chars = punctuation + "1234567890"
         self.hard_processing = False      # Can be set to True for heavier stemming, results can be non-linguistic!
 

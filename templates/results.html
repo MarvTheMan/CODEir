@@ -14,9 +14,9 @@
                 <a href=settings class="button">Settings</a>
             </div>
             <div class="navbar_form">
-                <form id="form_main" method="POST" >
-                    <input type="text" name="query" value="{{query}}" required>
-                    <input class="button" type="submit" value="Search" formaction="results">
+                <form id="form_main" method="POST" action="results">
+                    <input id="search_bar" type="text" name="query" value="{{query}}" required>
+                    <input class="button" type="submit" value="Search" >
                 </form>
             </div>
 
