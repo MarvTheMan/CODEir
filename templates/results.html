@@ -1,0 +1,50 @@
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css')}}">
+        <title>CODE Search Engine | Results</title>
+    </head>
+    <body>
+        <div class="navbar">
+            <div class=navbar_logo>
+                <a href="/"><img src="{{ url_for('static', filename='images/logo_small.png')}}" alt="CODE Search Engine"></a>
+            </div>
+            <div class="navbar_settings">
+                <a href=settings class="button">Settings</a>
+            </div>
+            <div class="navbar_form">
+                <form id="form_main" method="POST" >
+                    <input type="text" name="query" value="{{query}}" required>
+                    <input class="button" type="submit" value="Search" formaction="results">
+                </form>
+            </div>
+
+        </div>
+        <div class="content">
+            <div class="results">
+                <div class="result">
+                    This is a result.
+                </div>
+                <div class="result">
+                    This is a result.
+                </div>
+                <div class="result">
+                    This is a result.
+                </div>
+                <div class="result">
+                    This is a result.
+                </div>
+                <div class="result">
+                    This is a result.
+                </div>
+                <div class="result">
+                    This is a result.
+                </div>
+                <div class="result">
+                    This is a result.
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
