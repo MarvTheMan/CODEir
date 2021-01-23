@@ -30,11 +30,11 @@ class Textprocessor:
             wordlist = self.remove_stopwords(wordlist)
             wordlist = self.lemmatize_words(wordlist)
             wordlist = self.stem_words(wordlist)
-            wordcounts[file] = self.get_wordcount(wordlist)
-        freq_matrix = self.calculate_frequencies(wordcounts)
-        term_weight_matrix = self.calculate_term_weights(freq_matrix)
+            wordcounts[file] = self.count_words(wordlist)
+        term_weight_matrix = self.calculate_term_weights(wordcounts)
         term_weight_matrix.to_csv(os.path.join("config", "twmatrix.csv"))
         self.term_weight_matrix = term_weight_matrix
+        print(self.term_weight_matrix.head())
 
     def open_file(self, path):
         # opens file and puts all words in a wordlist.
@@ -88,7 +88,7 @@ class Textprocessor:
             stemmed_words.append(stemmer.stem(word))
         return stemmed_words
 
-    def get_wordcount(self, wordlist):
+    def count_words(self, wordlist):
         # Takes a wordlist and returns the wordcount.
         wordcount = {}
         for word in wordlist:
@@ -98,14 +98,10 @@ class Textprocessor:
                 wordcount[word] = 1
         return wordcount
 
-    def calculate_frequencies(self, wordcounts):
-        # takes wordcounts dict and returns a frequency matrix.
+    def calculate_term_weights(self, wordcounts):
+        # takes a wordcounts dict and returns a term weight matrix.
         freq_matrix = pd.DataFrame(wordcounts)
         freq_matrix.fillna(0, inplace=True)  # replaces all NaN values with 0.
-        return freq_matrix
-
-    def calculate_term_weights(self, freq_matrix):
-        # takes a frequency matrix and returns a term weight matrix.
         N = len(freq_matrix.columns)
         idf_list = []
         for index, item in freq_matrix.iterrows():
