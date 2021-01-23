@@ -117,3 +117,11 @@ class Textprocessor:
             idf_list.append(idf)
         term_weight_matrix = freq_matrix.mul(idf_list, axis=0)
         return term_weight_matrix
+
+    def reset_default_settings(self):
+        self.documents_folder = os.path.join(os.getcwd(), "documents")
+        self.language = "english"
+        self.unwanted_chars = punctuation + "1234567890"
+        self.enable_stemmer = False
+        self.enable_lemmatizer = True
+        self.create_term_weight_matrix()

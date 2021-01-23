@@ -58,18 +58,19 @@ input[type=text]:focus {
     font-size: 1.4rem;
     border-radius: 25px;
     border: none;
-    background-color: lightgray;
+    background-color: #fbe087;
     margin: 20px 20px;
     padding: 6px 15px;
 }
 
 .button:hover {
-    background-color: gray;
+    background-color: #cfb049;
     cursor: pointer;
 }
 
 .result {
     background-color: lightgray;
+    border-radius: 25px;
     width: 75%;
     height: 120px;
     margin: 1.5rem auto;
@@ -83,9 +84,17 @@ input[type=text]:focus {
     margin: 1.5rem auto;
 }
 
-#save_button {
+#save_button_box {
     position: absolute;
     top: 20px;
     right: 190px;
+    z-index: 20;
+}
+
+
+#reset_button_box {
+    position: absolute;
+    top: 20px;
+    right: 320px;
     z-index: 20;
 }

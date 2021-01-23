@@ -18,6 +18,7 @@ def index():
 def results():
     # Takes a given query, calculates the vectors and prints results.
     query = request.form["query"]
+    resultlist = ["test1.txt", "text4.txt", "text2.txt"]
     return render_template("results.html", query=query)
 
 
@@ -43,6 +44,10 @@ def savedsettings():
     # Gets all settings from form on /settings.
     # Then changes settings and creates new matrix accordingly.
     if request.method == "POST":
+        if request.form["submit_button"] == "Reset to defaults":
+            print("ik ben geklikt")
+            tp.reset_default_settings()
+            return settings()
         chosen_folder = request.form["folder"]
         if chosen_folder == "":
             chosen_folder = tp.documents_folder

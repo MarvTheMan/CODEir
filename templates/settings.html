@@ -10,8 +10,11 @@
         <div class=navbar_logo>
             <a href=/><img src="{{ url_for('static', filename='images/logo_small.png')}}" alt="CODE Search Engine"></a>
         </div>
-        <div id="save_button">
-            <input class = "button" form="settings_form" type="submit" value="Save">
+        <div id="save_button_box">
+            <input class="button" form="settings_form" type="submit" name="submit_button"value="Save">
+        </div>
+        <div id="reset_button_box">
+            <input class="button" form="settings_form" type="submit" name="submit_button"value="Reset to defaults">
         </div>
         <div class="navbar_settings">
             <a href=/ class="button">Don't save</a>
