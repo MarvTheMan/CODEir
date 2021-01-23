@@ -45,7 +45,6 @@ def savedsettings():
     # Then changes settings and creates new matrix accordingly.
     if request.method == "POST":
         if request.form["submit_button"] == "Reset to defaults":
-            print("ik ben geklikt")
             tp.reset_default_settings()
             return settings()
         chosen_folder = request.form["folder"]

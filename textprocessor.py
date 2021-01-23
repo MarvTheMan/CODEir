@@ -125,3 +125,4 @@ class Textprocessor:
         self.enable_stemmer = False
         self.enable_lemmatizer = True
         self.create_term_weight_matrix()
+        
