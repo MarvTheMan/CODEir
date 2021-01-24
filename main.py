@@ -23,7 +23,7 @@ def results():
 
 
 @app.route("/settings")
-def settings(errormsg=""):
+def settings(msg=""):
     # Page to adjust the settings of the application.
     if tp.language == "english":
         # create a boolean to set language in settings menu with Jinja.
@@ -31,7 +31,7 @@ def settings(errormsg=""):
     else:
         isenglish = False
     return render_template("settings.html",
-                           warning=errormsg,
+                           message=msg,
                            directory=tp.documents_folder,
                            isenglish=isenglish,
                            unwanted_chars=tp.unwanted_chars,
@@ -46,7 +46,8 @@ def savedsettings():
     if request.method == "POST":
         if request.form["submit_button"] == "Reset to defaults":
             tp.reset_default_settings()
-            return settings()
+            message = "Default settings have been reset."
+            return settings(message)
         chosen_folder = request.form["folder"]
         if chosen_folder == "":
             chosen_folder = tp.documents_folder
@@ -72,12 +73,6 @@ def savedsettings():
 
 
 if __name__ == "__main__":
-    # Search for an existing tw_matrix.csv so that program starts faster.
-    if os.path.exists(os.path.join("config", "twmatrix.csv")):
-        term_weight_matrix = pd.read_csv(os.path.join("config",
-                                                      "twmatrix.csv"))
-    else:
-        tp.create_term_weight_matrix()
     app.config['TEMPLATES_AUTO_RELOAD'] = True
     app.config['DEBUG'] = True
     app.config['SERVER_NAME'] = "127.0.0.1:5000"

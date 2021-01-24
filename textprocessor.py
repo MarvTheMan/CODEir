@@ -16,6 +16,7 @@ class Textprocessor:
         self.unwanted_chars = punctuation + "1234567890"
         self.enable_stemmer = False
         self.enable_lemmatizer = True
+        self.create_term_weight_matrix()
 
     def create_term_weight_matrix(self):
         # Call this function to create
@@ -34,7 +35,6 @@ class Textprocessor:
         term_weight_matrix = self.calculate_term_weights(wordcounts)
         term_weight_matrix.to_csv(os.path.join("config", "twmatrix.csv"))
         self.term_weight_matrix = term_weight_matrix
-        print(self.term_weight_matrix.head())
 
     def open_file(self, path):
         # opens file and puts all words in a wordlist.
