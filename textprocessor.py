@@ -17,6 +17,7 @@ class Textprocessor:
         self.enable_stemmer = False
         self.enable_lemmatizer = True
         self.create_term_weight_matrix()
+        self.document_vectors = self.calc_doc_vectors(self.term_weight_matrix)
 
     def create_term_weight_matrix(self):
         # Call this function to create
@@ -113,6 +114,17 @@ class Textprocessor:
             idf_list.append(idf)
         term_weight_matrix = freq_matrix.mul(idf_list, axis=0)
         return term_weight_matrix
+
+    def calc_doc_vectors(self, twmatrix):
+        # Takes an dataframe object with term weights and
+        # returns a dict with the vector lenghts of each text.
+        vector_lengths = {}
+        for column in twmatrix.columns:
+            vectorcount = 0
+            for item in twmatrix[column]:
+                vectorcount += (item ** 2)
+            vector_lengths[column] = sqrt(vectorcount)
+        return vector_lengths        
 
     def reset_default_settings(self):
         self.documents_folder = os.path.join(os.getcwd(), "documents")
