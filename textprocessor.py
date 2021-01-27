@@ -1,13 +1,16 @@
 import os
+
+import pandas as pd
 from string import punctuation
 from nltk.stem import PorterStemmer, WordNetLemmatizer
 from nltk.stem.snowball import DutchStemmer
-import pandas as pd
-from math import log
+from math import log, sqrt
+
 
 
 class Textprocessor:
     # Handles all the lexical analysis and stemming.
+    # contains the term weight matrix for chosen texts and settings.
 
     def __init__(self):
         # Sets the standard settings for the Textprocessor.
@@ -17,8 +20,7 @@ class Textprocessor:
         self.enable_stemmer = False
         self.enable_lemmatizer = True
         self.create_term_weight_matrix()
-        self.document_vectors = self.calc_doc_vectors(self.term_weight_matrix)
-
+        
     def create_term_weight_matrix(self):
         # Call this function to create
         # a term weight matrix with the provided settings.
@@ -28,14 +30,12 @@ class Textprocessor:
                 continue
             wordlist = self.open_file(os.path.join(self.documents_folder,
                                                    file))
-            wordlist = self.remove_unwanted_characters(wordlist)
-            wordlist = self.remove_stopwords(wordlist)
-            wordlist = self.lemmatize_words(wordlist)
-            wordlist = self.stem_words(wordlist)
+            wordlist = self.clean_words(wordlist)
             wordcounts[file] = self.count_words(wordlist)
         term_weight_matrix = self.calculate_term_weights(wordcounts)
         term_weight_matrix.to_csv(os.path.join("config", "twmatrix.csv"))
         self.term_weight_matrix = term_weight_matrix
+       # self.document_vectors = self.calc_doc_vectors(self.term_weight_matrix)
 
     def open_file(self, path):
         # opens file and puts all words in a wordlist.
@@ -43,6 +43,13 @@ class Textprocessor:
             wordlist = f.read().split()
         return wordlist
 
+    def clean_words(self, wordlist):
+        words = self.remove_unwanted_characters(wordlist)
+        words = self.remove_stopwords(words)
+        words = self.lemmatize_words(words)
+        words = self.stem_words(words)
+        return words
+        
     def remove_unwanted_characters(self, wordlist):
         # Takes a wordlist and removes all unwanted chars from the words.
         cleanlist = []
@@ -115,18 +122,20 @@ class Textprocessor:
         term_weight_matrix = freq_matrix.mul(idf_list, axis=0)
         return term_weight_matrix
 
-    def calc_doc_vectors(self, twmatrix):
-        # Takes an dataframe object with term weights and
-        # returns a dict with the vector lenghts of each text.
-        vector_lengths = {}
-        for column in twmatrix.columns:
-            vectorcount = 0
-            for item in twmatrix[column]:
-                vectorcount += (item ** 2)
-            vector_lengths[column] = sqrt(vectorcount)
-        return vector_lengths        
+    # def calc_doc_vectors(self, twmatrix):
+    #     # Takes an dataframe object with term weights and
+    #     # returns a dict with the vector lenghts of each text.
+    #     vector_lengths = {}
+    #     for column in twmatrix.columns:
+    #         vectorcount = 0
+    #         for item in twmatrix[column]:
+    #             vectorcount += (item ** 2)
+    #         vector_lengths[column] = sqrt(vectorcount)
+    #     return vector_lengths        
 
     def reset_default_settings(self):
+        # Can be called to reset the program to default settings.
+        # Also creates a new term weight matrix (if anything was changed.)
         self.documents_folder = os.path.join(os.getcwd(), "documents")
         self.language = "english"
         self.unwanted_chars = punctuation + "1234567890"

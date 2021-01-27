@@ -2,7 +2,7 @@ from flask import Flask, render_template, request
 from textprocessor import Textprocessor
 import os
 import pandas as pd
-
+import query_functions as query_funcs
 
 tp = Textprocessor()
 app = Flask(__name__)
@@ -17,9 +17,17 @@ def index():
 @app.route("/results", methods=["POST"])
 def results():
     # Takes a given query, calculates the vectors and prints results.
-    query = request.form["query"]
-    resultlist = ["test1.txt", "text4.txt", "text2.txt"]
-    return render_template("results.html", query=query)
+    search_terms = request.form["search_terms"]
+    query = search_terms.split()
+    query = tp.clean_words(query)
+    print("query: ", query)
+    sum_of_weights = query_funcs.calc_sum_of_weights(tp.term_weight_matrix, query)
+    if sum_of_weights is None:
+        msg = "There were no matches for your search criteria."
+        return render_template("results.html", search_terms=search_terms, message=msg)
+    doc_vectors = query_funcs.calc_doc_vectors(tp.term_weight_matrix)
+    final_output = query_funcs.calc_cosine_similarity(query, sum_of_weights, doc_vectors)
+    return render_template("results.html", search_terms=search_terms, results=final_output)  # , results=Query.results
 
 
 @app.route("/settings")
