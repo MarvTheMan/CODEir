@@ -2,7 +2,7 @@ from flask import Flask, render_template, request
 from textprocessor import Textprocessor
 import os
 import pandas as pd
-import query_functions as query_funcs
+import query_functions as query_func
 
 tp = Textprocessor()
 app = Flask(__name__)
@@ -23,14 +23,14 @@ def results():
     if query == []:
         msg = "Your query was too generic. Try to be more precise or enable \"keep stopwords\" in the settings."
         return render_template("results.html", search_terms=search_terms, message=msg)
-    sum_of_weights = query_funcs.calc_sum_of_weights(tp.term_weight_matrix, query)
+    sum_of_weights = query_func.calc_sum_of_weights(tp.term_weight_matrix, query)
     if sum_of_weights is None:
         msg = "There were no matches for your search criteria."
         return render_template("results.html", search_terms=search_terms, message=msg)
-    doc_vectors = query_funcs.calc_doc_vectors(tp.term_weight_matrix)
-    final_output = query_funcs.calc_cosine_similarity(query, sum_of_weights, doc_vectors)
+    doc_vectors = query_func.calc_doc_vectors(tp.term_weight_matrix)
+    final_output = query_func.calc_cosine_similarity(query, sum_of_weights, doc_vectors)
     for doc in final_output:
-        doc.append(query_funcs.get_text_snippet(doc[0], tp.documents_folder, query)) 
+        doc.append(query_func.get_text_snippet(doc[0], tp.documents_folder, query)) 
     return render_template("results.html", search_terms=search_terms, results=final_output) 
 
 

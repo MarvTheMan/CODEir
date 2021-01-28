@@ -53,7 +53,7 @@ def get_text_snippet(textname, directory, query):
     snippet = ""
     with open(os.path.join(directory, textname), "r") as f:
         for word in query:
-            regex = re.compile(word, flags=re.IGNORECASE) # added flag to find upper and lowercase matches.
+            regex = re.compile(word, flags=re.IGNORECASE) # added flag to match upper and lowercase.
             for line in f:
                 match = regex.search(line)
                 if match != None:
