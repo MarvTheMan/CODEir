@@ -45,6 +45,14 @@
                 <p>These characters will be removed from texts in the lexical analysis.</p>
             </div>
             <div class= "setting"> 
+                <div id=stopword_setting>
+                    <h3>Keep stopwords</h3>
+                    <input type="checkbox" name="enable_stopwords" {{ 'checked="checked"' if enable_stopwords }}>
+                    <p>Search results often get better when stopwords are removed, so keeping them is not recommended.</p>
+                    <p>If enabled, common stopwords of the chosen language will <b>not</b> be removed from query and search documents.</p>
+                </div>
+            </div>
+            <div class= "setting"> 
                 <div id=stem_setting>
                     <h3>Stemmer</h3>
                     <input type="checkbox" name="enable_stemmer" {{ 'checked="checked"' if enable_stemmer }}>
@@ -56,7 +64,7 @@
                 <h3>Lemmatizer</h3>
                 <input type="checkbox" name="enable_lemmatizer" {{ 'checked="checked"' if enable_lemmatizer }}>
                 <p>A lemmatizer sets all words with the same meaning (e.g. runs, ran, running) to one word (run). </p>
-                <p>Even if checked, the lemmatizer does not work with the Dutch language since it does not exist in used libraries.</p>
+                <p>Even if checked, the lemmatizer is not being used with the Dutch language since there is no Dutch lemmatizer in used libraries.</p>
             </div>
         </form>
 

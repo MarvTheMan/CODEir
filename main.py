@@ -20,7 +20,9 @@ def results():
     search_terms = request.form["search_terms"]
     query = search_terms.split()
     query = tp.clean_words(query)
-    print("query: ", query)
+    if query == []:
+        msg = "Your query was too generic. Try to be more precise or enable \"keep stopwords\" in the settings."
+        return render_template("results.html", search_terms=search_terms, message=msg)
     sum_of_weights = query_funcs.calc_sum_of_weights(tp.term_weight_matrix, query)
     if sum_of_weights is None:
         msg = "There were no matches for your search criteria."
@@ -43,6 +45,7 @@ def settings(msg=""):
                            directory=tp.documents_folder,
                            isenglish=isenglish,
                            unwanted_chars=tp.unwanted_chars,
+                           enable_stopwords=tp.enable_stopwords,
                            enable_stemmer=tp.enable_stemmer,
                            enable_lemmatizer=tp.enable_lemmatizer)
 
@@ -68,6 +71,14 @@ def savedsettings():
         tp.unwanted_chars = request.form["unwanted_chars"]
         # empty checkboxes do not return a False boolean so we set
         # values to True/False based on appearance in the form.
+        if "enable_stopwords" in request.form:
+            print("nu ben ik True")
+            tp.enable_stopwords = True
+            print(tp.enable_stopwords)
+        else:
+            print("nu ben ik False")
+            tp.enable_stopwords = False
+            print(tp.enable_stopwords)
         if "enable_lemmatizer" in request.form:
             tp.enable_lemmatizer = True
         else:

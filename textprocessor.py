@@ -17,6 +17,7 @@ class Textprocessor:
         self.documents_folder = os.path.join(os.getcwd(), "documents")
         self.language = "english"
         self.unwanted_chars = punctuation + "1234567890"
+        self.enable_stopwords = False
         self.enable_stemmer = False
         self.enable_lemmatizer = True
         self.create_term_weight_matrix()
@@ -49,7 +50,7 @@ class Textprocessor:
         words = self.lemmatize_words(words)
         words = self.stem_words(words)
         return words
-        
+
     def remove_unwanted_characters(self, wordlist):
         # Takes a wordlist and removes all unwanted chars from the words.
         cleanlist = []
@@ -63,6 +64,8 @@ class Textprocessor:
         return cleanlist
 
     def remove_stopwords(self, wordlist):
+        if self.enable_stopwords is True:
+            return wordlist
         # Takes a wordlist and removes all stopwords from that list.
         stopwords = self.open_file(os.path.join("config",
                                                 "stopwords",
@@ -139,6 +142,7 @@ class Textprocessor:
         self.documents_folder = os.path.join(os.getcwd(), "documents")
         self.language = "english"
         self.unwanted_chars = punctuation + "1234567890"
+        self.enable_stopwords = False
         self.enable_stemmer = False
         self.enable_lemmatizer = True
         self.create_term_weight_matrix()
