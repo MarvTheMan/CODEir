@@ -1,6 +1,7 @@
 import pandas as pd
 from math import sqrt
 import os
+import re
 
 def calc_sum_of_weights(twmatrix, search_terms):
     # Creates a dataframe with the sum of weights for all terms
@@ -44,3 +45,28 @@ def calc_cosine_similarity(query, document_weight_sum, document_vectors):
                     ansmatrix.append([doc1, ans])
     sorted_output = sorted(ansmatrix, key=lambda score : score[1], reverse=True)
     return sorted_output
+
+def get_text_snippet(textname, directory, query):
+    # searches and parses a text snippet containing the keyword(s) TODO: tidy up so that not only last snippet is shown.
+    with open(os.path.join(directory, textname), "r") as f:
+        for word in query:
+            regex = re.compile(word)
+            for line in f:
+                match = regex.search(line)
+                if match != None:
+                    start = match.start()
+                    end = match.end()
+                    if start <= 15:
+                        start = 0
+                        prefix = ""
+                    else:
+                        start -= 15
+                        prefix = "..."
+                    if end - len(line) <= 15:
+                        end = len(line)
+                        suffix = ""
+                    else:
+                        end += 15
+                        suffix = "..."
+                    snippet = f"{prefix}{line[start:end]}{suffix}"
+    return snippet

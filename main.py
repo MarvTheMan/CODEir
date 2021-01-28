@@ -17,7 +17,8 @@ def index():
 @app.route("/results", methods=["POST"])
 def results():
     # Takes a given query, calculates the vectors and prints results.
-    query = request.form["search_terms"].split()
+    search_terms = request.form["search_terms"]
+    query = search_terms.split()
     query = tp.clean_words(query)
     if query == []:
         msg = "Your query was too generic. Try to be more precise or enable \"keep stopwords\" in the settings."
@@ -28,7 +29,9 @@ def results():
         return render_template("results.html", search_terms=search_terms, message=msg)
     doc_vectors = query_funcs.calc_doc_vectors(tp.term_weight_matrix)
     final_output = query_funcs.calc_cosine_similarity(query, sum_of_weights, doc_vectors)
-    return render_template("results.html", search_terms=search_terms, results=final_output)  # , results=Query.results
+    for doc in final_output:
+        doc.append(query_funcs.get_text_snippet(doc[0], tp.documents_folder, query)) 
+    return render_template("results.html", search_terms=search_terms, results=final_output) 
 
 
 @app.route("/settings")
