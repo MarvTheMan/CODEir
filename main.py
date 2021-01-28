@@ -17,8 +17,7 @@ def index():
 @app.route("/results", methods=["POST"])
 def results():
     # Takes a given query, calculates the vectors and prints results.
-    search_terms = request.form["search_terms"]
-    query = search_terms.split()
+    query = request.form["search_terms"].split()
     query = tp.clean_words(query)
     if query == []:
         msg = "Your query was too generic. Try to be more precise or enable \"keep stopwords\" in the settings."
@@ -72,13 +71,9 @@ def savedsettings():
         # empty checkboxes do not return a False boolean so we set
         # values to True/False based on appearance in the form.
         if "enable_stopwords" in request.form:
-            print("nu ben ik True")
             tp.enable_stopwords = True
-            print(tp.enable_stopwords)
         else:
-            print("nu ben ik False")
             tp.enable_stopwords = False
-            print(tp.enable_stopwords)
         if "enable_lemmatizer" in request.form:
             tp.enable_lemmatizer = True
         else:
