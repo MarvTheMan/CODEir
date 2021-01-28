@@ -51,10 +51,10 @@ def get_text_snippet(textname, directory, query):
     LENGTH = 600
     HALF_LENGTH = int(LENGTH//2)
     snippet = ""
-    with open(os.path.join(directory, textname), "r") as f:
-        for word in query:
-            regex = re.compile(word, flags=re.IGNORECASE) # added flag to match upper and lowercase.
-            for line in f:
+    with open(os.path.join(directory, textname), "r") as f:    
+        for line in f:
+            for word in query:
+                regex = re.compile(word, flags=re.IGNORECASE) # added flag to match upper and lowercase.
                 match = regex.search(line)
                 if match != None:
                     start, end = match.start(), match.end()
