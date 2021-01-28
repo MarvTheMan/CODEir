@@ -74,6 +74,7 @@ input[type=text]:focus {
     width: 75%;
     height: 120px;
     margin: 1.5rem auto;
+    text-align: justify;
 }
 
 .setting {
@@ -98,3 +99,37 @@ input[type=text]:focus {
     right: 320px;
     z-index: 20;
 }
+
+.break_line {
+    width: 98%;
+    background-color: gray;
+    color: gray;
+    height: 0.2rem;
+    border-radius: 25px;
+    position: relative;
+    top: -70px;
+}
+.result_count {
+    position: relative;
+    top: -25px;
+    left: 50%;
+}
+.result_name {
+    position: relative;
+    top: 10px;
+    left: 3%;
+    width: center;
+}
+.result_rating {
+    position: relative;
+    top: -60px;
+    left: 88%;
+}
+
+.result_snippet {
+    position: relative;
+    top: -80px;
+    left: 3%;
+    margin-right: 108px;
+
+}   
