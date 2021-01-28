@@ -123,18 +123,7 @@ class Textprocessor:
             idf = log((N/df), 2)
             idf_list.append(idf)
         term_weight_matrix = freq_matrix.mul(idf_list, axis=0)
-        return term_weight_matrix
-
-    # def calc_doc_vectors(self, twmatrix):
-    #     # Takes an dataframe object with term weights and
-    #     # returns a dict with the vector lenghts of each text.
-    #     vector_lengths = {}
-    #     for column in twmatrix.columns:
-    #         vectorcount = 0
-    #         for item in twmatrix[column]:
-    #             vectorcount += (item ** 2)
-    #         vector_lengths[column] = sqrt(vectorcount)
-    #     return vector_lengths        
+        return term_weight_matrix  
 
     def reset_default_settings(self):
         # Can be called to reset the program to default settings.
