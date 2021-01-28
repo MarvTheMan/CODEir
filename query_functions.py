@@ -48,14 +48,17 @@ def calc_cosine_similarity(query, document_weight_sum, document_vectors):
 
 def get_text_snippet(textname, directory, query):
     # searches and parses a text snippet containing the keyword(s) TODO: tidy up so that not only last snippet is shown.
+    snippet = ""
     with open(os.path.join(directory, textname), "r") as f:
         for word in query:
-            regex = re.compile(word)
+            print(word)
+            regex = re.compile(word, flags=re.IGNORECASE) # added flag to find upper and lowercase matches.
             for line in f:
                 match = regex.search(line)
                 if match != None:
                     start = match.start()
                     end = match.end()
+                    print(start, end)
                     if start <= 15:
                         start = 0
                         prefix = ""
