@@ -2,7 +2,7 @@ import nltk
 import ssl
 
 """
-This file downloads the wordnet extention of nltk.
+This file downloads the wordnet extension of nltk.
 It can not be downloaded with pip.
 It looks complicated because the NLTK server can respond badly on a wrong ssl certificate,
 so this script disables the SSL check.
