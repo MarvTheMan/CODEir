@@ -1,6 +1,12 @@
 import nltk
 import ssl
 
+"""
+This file downloads the wordnet extention of nltk.
+It can not be downloaded with pip.
+It looks complicated because the NLTK server can respond badly on a wrong ssl certificate,
+so this script disables the SSL check.
+"""
 try:
     _create_unverified_https_context = ssl._create_unverified_context
 except AttributeError:
