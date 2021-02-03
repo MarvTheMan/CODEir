@@ -30,6 +30,8 @@ def results():
     doc_vectors = query_func.calc_doc_vectors(tp.term_weight_matrix)
     final_output = query_func.calc_cosine_similarity(query, sum_of_weights, doc_vectors)
     for doc in final_output:
+        if len(doc) > 30:
+            doc = doc[30:] + "..."
         doc.append(query_func.get_text_snippet(doc[0], tp.documents_folder, query)) 
     return render_template("results.html", search_terms=search_terms, results=final_output) 
 
