@@ -48,7 +48,7 @@ def calc_cosine_similarity(query, document_weight_sum, document_vectors):
 
 def get_text_snippet(textname, directory, query):
     # searches and parses a text snippet containing the keyword(s) TODO: tidy up so that not only last snippet is shown.
-    LENGTH = 600
+    LENGTH = 550
     HALF_LENGTH = int(LENGTH//2)
     snippet = ""
     with open(os.path.join(directory, textname), "r") as f:    
@@ -71,5 +71,6 @@ def get_text_snippet(textname, directory, query):
                         end += HALF_LENGTH
                         suffix = "..."
                     sub_snippet = f"{prefix}{line[start:end]}{suffix}"
-                    snippet += sub_snippet
+                    if len(snippet + sub_snippet) < LENGTH:
+                        snippet += sub_snippet
     return snippet
