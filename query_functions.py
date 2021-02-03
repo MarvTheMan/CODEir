@@ -42,7 +42,11 @@ def calc_cosine_similarity(query, document_weight_sum, document_vectors):
             if doc1 == doc2:
                 ans = document_weight_sum[doc1]/(document_vectors[doc1]*query_vector)
                 if ans != 0: # not adding results that have zero similarity with query
-                    ansmatrix.append([doc1, ans])
+                    if len(doc1) > 60:
+                        name = doc1[:27] + " (...) " + doc1[-27:]
+                    else:
+                        name = doc1
+                    ansmatrix.append([doc1, name, ans])
     sorted_output = sorted(ansmatrix, key=lambda score : score[1], reverse=True)
     return sorted_output
 

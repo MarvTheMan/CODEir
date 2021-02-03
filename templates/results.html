@@ -28,12 +28,12 @@
                 {% for result in results %}
                 <div class="result">
                     <div class="results_top_box">
-                        <p class ="result_name"><b>Name: {{ result[0] }} </b></p>
+                        <p class ="result_name"><b>Name: {{ result[1] }} </b></p>
                         <p class="result_count"><b>{{ loop.index }}</b></p>
-                        <p class="result_rating"><b>Rating: {{ result[1]|round(4) }}</b></p>
+                        <p class="result_rating"><b>Rating: {{ result[2]|round(4) }}</b></p>
                         <hr class="break_line">
                     </div>
-                    <p class="result_snippet">{{result[2] }}</p>
+                    <p class="result_snippet">{{result[3] }}</p>
                 </div>
                 {% endfor %}
             </div>
