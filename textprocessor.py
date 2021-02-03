@@ -39,7 +39,7 @@ class Textprocessor:
 
     def open_file(self, path):
         # opens file and puts all words in a wordlist.
-        with open(path, "r") as f:
+        with open(path, "r", encoding="utf8") as f:
             wordlist = f.read().split()
         return wordlist
 

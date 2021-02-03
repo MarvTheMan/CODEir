@@ -52,7 +52,7 @@ def get_text_snippet(textname, directory, query):
     HALF_LENGTH = int(LENGTH//2)
     snippet = ""
     sub_snippet_list = []
-    with open(os.path.join(directory, textname), "r") as f:    
+    with open(os.path.join(directory, textname), "r", encoding="utf8") as f:    
         for line in f:
             for word in query:
                 regex = re.compile(word, flags=re.IGNORECASE) # added flag to match upper and lowercase.
