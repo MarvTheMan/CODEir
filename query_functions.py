@@ -51,6 +51,7 @@ def get_text_snippet(textname, directory, query):
     LENGTH = 550
     HALF_LENGTH = int(LENGTH//2)
     snippet = ""
+    sub_snippet_list = []
     with open(os.path.join(directory, textname), "r") as f:    
         for line in f:
             for word in query:
@@ -72,5 +73,7 @@ def get_text_snippet(textname, directory, query):
                         suffix = "..."
                     sub_snippet = f"{prefix}{line[start:end]}{suffix}"
                     if len(snippet + sub_snippet) < LENGTH:
-                        snippet += sub_snippet
+                        if sub_snippet not in sub_snippet_list:
+                            snippet += sub_snippet
+                            sub_snippet_list.append(sub_snippet)
     return snippet
