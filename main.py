@@ -43,7 +43,7 @@ def results():
         # Global variable to track which output to show.
     if request.form["button"] == "Search":
         output_count = 0
-    else:
+    elif request.form["button"] == "Show more":
         output_count += 5
     return render_template("results.html",
                            search_terms=search_terms,
@@ -87,8 +87,8 @@ def savedsettings():
         tp.documents_folder = chosen_folder
         tp.language = request.form["language"]
         tp.unwanted_chars = request.form["unwanted_chars"]
-        # empty checkboxes do not return a False boolean so we set
-        # values to True/False based on appearance in the form.
+        # Empty checkboxes do not return a False boolean so we set
+        # Values to True/False based on appearance in the form.
         if "enable_stopwords" in request.form:
             tp.enable_stopwords = True
         else:
