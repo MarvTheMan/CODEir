@@ -16,7 +16,10 @@
             <div class="navbar_form">
                 <form id="form_main" method="POST" action="results">
                     <input id="search_bar" type="text" name="search_terms" value="{{search_terms}}" required>
-                    <input class="button" type="submit" value="Search" >
+                    <input class="button" type="submit" name="button" value="Search" >
+                    {% if results|length > 4 %}
+                    <input class="button" type="submit" name="button" value="Show more" >
+                    {% endif %}
                 </form>
             </div>
 
@@ -29,14 +32,15 @@
                 <div class="result">
                     <div class="results_top_box">
                         <p class ="result_name"><b>Name: {{ result[1] }} </b></p>
-                        <p class="result_count"><b>{{ loop.index }}</b></p>
+                        <p class="result_count"><b>{{ result[3] }}</b></p>
                         <p class="result_rating"><b>Rating: {{ result[2]|round(4) }}</b></p>
                         <hr class="break_line">
                     </div>
-                    <p class="result_snippet">{{result[3] }}</p>
+                    <p class="result_snippet">{{result[4] }}</p>
                 </div>
                 {% endfor %}
             </div>
+
         </div>
     </body>
 </html>

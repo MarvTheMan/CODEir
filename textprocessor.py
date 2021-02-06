@@ -1,11 +1,9 @@
 import os
-
 import pandas as pd
 from string import punctuation
 from nltk.stem import PorterStemmer, WordNetLemmatizer
 from nltk.stem.snowball import DutchStemmer
-from math import log, sqrt
-
+from math import log
 
 
 class Textprocessor:
@@ -21,7 +19,7 @@ class Textprocessor:
         self.enable_stemmer = False
         self.enable_lemmatizer = True
         self.create_term_weight_matrix()
-        
+
     def create_term_weight_matrix(self):
         # Call this function to create
         # a term weight matrix with the provided settings.
@@ -63,9 +61,9 @@ class Textprocessor:
         return cleanlist
 
     def remove_stopwords(self, wordlist):
+        # Takes a wordlist and removes all stopwords from that list.
         if self.enable_stopwords is True:
             return wordlist
-        # Takes a wordlist and removes all stopwords from that list.
         stopwords = self.open_file(os.path.join("config",
                                                 "stopwords",
                                                 self.language))
@@ -86,7 +84,7 @@ class Textprocessor:
         return lemmatized_words
 
     def stem_words(self, wordlist):
-        # checks if stemming is enabled and stems words in wordlist.
+        # Checks if stemming is enabled and stems words in wordlist.
         if self.enable_stemmer is not True:
             return wordlist
         if self.language == "english":
@@ -109,7 +107,7 @@ class Textprocessor:
         return wordcount
 
     def calculate_term_weights(self, wordcounts):
-        # takes a wordcounts dict and returns a term weight matrix.
+        # Takes a wordcounts dict and returns a term weight matrix.
         freq_matrix = pd.DataFrame(wordcounts)
         freq_matrix.fillna(0, inplace=True)  # replaces all NaN values with 0.
         N = len(freq_matrix.columns)
@@ -121,7 +119,11 @@ class Textprocessor:
                     df += 1
             idf = log((N/df), 2)
             idf_list.append(idf)
+<<<<<<< HEAD
         # use pandas .mul(tiply) funct to quickly multiply 
+=======
+        # use pandas .mul(tiply) function to quicly multiply
+>>>>>>> 87a3c27dff8d954d62db790a0b15fbe5972187d7
         # the idf list with all terms in the matrix.
         term_weight_matrix = freq_matrix.mul(idf_list, axis=0)
         return term_weight_matrix
@@ -136,4 +138,3 @@ class Textprocessor:
         self.enable_stemmer = False
         self.enable_lemmatizer = True
         self.create_term_weight_matrix()
-        
