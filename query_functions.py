@@ -47,7 +47,7 @@ def calc_cosine_similarity(query, document_weight_sum, document_vectors):
                     else:
                         name = doc1
                     ansmatrix.append([doc1, name, ans])
-    sorted_output = sorted(ansmatrix, key=lambda score : score[1], reverse=True)
+    sorted_output = sorted(ansmatrix, key=lambda score : score[2], reverse=True)
     return sorted_output
 
 def get_text_snippet(textname, directory, query):
