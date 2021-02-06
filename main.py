@@ -1,12 +1,11 @@
-from flask import Flask, render_template, request, g
+from flask import Flask, render_template, request
 from textprocessor import Textprocessor
 import os
-import pandas as pd
 import query_functions as query_func
 
 tp = Textprocessor()
 app = Flask(__name__)
-global output_count # global to keep track of the output so we can show more than 5 on a next page.
+
 
 @app.route("/")
 def index():
@@ -21,22 +20,34 @@ def results():
     query = search_terms.split()
     query = tp.clean_words(query)
     if query == []:
-        msg = "Your query was too generic. Try to be more precise or enable \"keep stopwords\" in the settings."
-        return render_template("results.html", search_terms=search_terms, message=msg)
-    sum_of_weights = query_func.calc_sum_of_weights(tp.term_weight_matrix, query)
+        msg = "Your query was too generic. Try to be more precise or \
+                enable \"keep stopwords\" in the settings."
+        return render_template("results.html",
+                               search_terms=search_terms,
+                               message=msg)
+    sum_of_weights = query_func.calc_weight_sum(tp.term_weight_matrix, query)
     if sum_of_weights is None:
         msg = "There were no matches for your search criteria."
-        return render_template("results.html", search_terms=search_terms, message=msg)
+        return render_template("results.html",
+                               search_terms=search_terms,
+                               message=msg)
     doc_vectors = query_func.calc_doc_vectors(tp.term_weight_matrix)
-    final_output = query_func.calc_cosine_similarity(query, sum_of_weights, doc_vectors)
+    final_output = query_func.calc_cosine_similarity(query,
+                                                     sum_of_weights,
+                                                     doc_vectors)
     for doc in final_output:
-        doc.append(query_func.get_text_snippet(doc[0], tp.documents_folder, query))
+        doc.append(query_func.get_text_snippet(doc[0],
+                   tp.documents_folder,
+                   query))
         global output_count
+        # Global variable to track which output to show.
     if request.form["button"] == "Search":
         output_count = 0
     else:
         output_count += 5
-    return render_template("results.html", search_terms=search_terms, results=final_output[output_count:output_count+5]) 
+    return render_template("results.html",
+                           search_terms=search_terms,
+                           results=final_output[output_count:output_count+5])
 
 
 @app.route("/settings")

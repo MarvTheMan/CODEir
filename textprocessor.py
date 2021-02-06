@@ -1,11 +1,9 @@
 import os
-
 import pandas as pd
 from string import punctuation
 from nltk.stem import PorterStemmer, WordNetLemmatizer
 from nltk.stem.snowball import DutchStemmer
-from math import log, sqrt
-
+from math import log
 
 
 class Textprocessor:
@@ -21,7 +19,7 @@ class Textprocessor:
         self.enable_stemmer = False
         self.enable_lemmatizer = True
         self.create_term_weight_matrix()
-        
+
     def create_term_weight_matrix(self):
         # Call this function to create
         # a term weight matrix with the provided settings.
@@ -121,7 +119,7 @@ class Textprocessor:
                     df += 1
             idf = log((N/df), 2)
             idf_list.append(idf)
-        # use pandas .mul(tiply) funct to quicly multiply 
+        # use pandas .mul(tiply) funct to quicly multiply
         # the idf list with all terms in the matrix.
         term_weight_matrix = freq_matrix.mul(idf_list, axis=0)
         return term_weight_matrix
@@ -136,4 +134,3 @@ class Textprocessor:
         self.enable_stemmer = False
         self.enable_lemmatizer = True
         self.create_term_weight_matrix()
-        
