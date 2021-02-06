@@ -121,7 +121,7 @@ class Textprocessor:
                     df += 1
             idf = log((N/df), 2)
             idf_list.append(idf)
-        # use pandas .mul(tiply) funct to quicly multiply 
+        # use pandas .mul(tiply) funct to quickly multiply 
         # the idf list with all terms in the matrix.
         term_weight_matrix = freq_matrix.mul(idf_list, axis=0)
         return term_weight_matrix
