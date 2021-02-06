@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, g
 from textprocessor import Textprocessor
 import os
 import pandas as pd
@@ -6,7 +6,7 @@ import query_functions as query_func
 
 tp = Textprocessor()
 app = Flask(__name__)
-
+global output_count # global to keep track of the output so we can show more than 5 on a next page.
 
 @app.route("/")
 def index():
@@ -30,8 +30,13 @@ def results():
     doc_vectors = query_func.calc_doc_vectors(tp.term_weight_matrix)
     final_output = query_func.calc_cosine_similarity(query, sum_of_weights, doc_vectors)
     for doc in final_output:
-        doc.append(query_func.get_text_snippet(doc[0], tp.documents_folder, query)) 
-    return render_template("results.html", search_terms=search_terms, results=final_output) 
+        doc.append(query_func.get_text_snippet(doc[0], tp.documents_folder, query))
+        global output_count
+    if request.form["button"] == "Search":
+        output_count = 0
+    else:
+        output_count += 5
+    return render_template("results.html", search_terms=search_terms, results=final_output[output_count:output_count+5]) 
 
 
 @app.route("/settings")
