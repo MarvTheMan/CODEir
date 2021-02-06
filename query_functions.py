@@ -51,9 +51,7 @@ def calc_cosine_similarity(query, document_weight_sum, document_vectors):
     rank = 1
     
     for item in sorted_output:
-        #print(item)
         item.append(rank)
-        #print(item)
         rank+=1
     return sorted_output
 
