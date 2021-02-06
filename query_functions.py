@@ -18,7 +18,7 @@ def calc_weight_sum(twmatrix, search_terms):
         return None
     vectormatrix.fillna(0, inplace=True)  # replaces all NaN values with 0.
     dot_product_matrix = twmatrix.multiply(vectormatrix["query"], axis=0)
-    # uses Pandas .sum() method to quicky get the sum per column.
+    # use Pandas .sum() method to quicky get the sum per column.
     weightsum = dot_product_matrix.sum()
     return weightsum
 
@@ -60,7 +60,7 @@ def calc_cosine_similarity(query, doc_weight_sum, doc_vectors):
 
 
 def get_text_snippet(textname, directory, query):
-    # searches and parses a text snippet containing the keyword(s)
+    # searches and parses a text snippet containing the keyword(s).
     LENGTH = 550
     HALF_LENGTH = int(LENGTH//2)
     snippet = ""
