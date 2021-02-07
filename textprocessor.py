@@ -32,7 +32,6 @@ class Textprocessor:
             wordlist = self.clean_words(wordlist)
             wordcounts[file] = self.count_words(wordlist)
         term_weight_matrix = self.calculate_term_weights(wordcounts)
-        term_weight_matrix.to_csv(os.path.join("config", "twmatrix.csv"))
         self.term_weight_matrix = term_weight_matrix
 
     def open_file(self, path):
